@@ -66,7 +66,7 @@ class TextAn(TextAnCommon):
 
         return
 
-    # Ajouter les structures de données et les fonctions nécessaires à l'analyse des textes,
+    # TODO Ajouter les structures de données et les fonctions nécessaires à l'analyse des textes,
     #   la production de textes aléatoires, la détection d'oeuvres inconnues,
     #   l'identification des n-ièmes mots les plus fréquents
     #
@@ -90,8 +90,8 @@ class TextAn(TextAnCommon):
         Copyright 2023, F. Mailhot et Université de Sherbrooke
         """
 
-        # Les lignes qui suivent ne servent qu'à éliminer un avertissement.
-        # Il faut les retirer et les remplacer par du code fonctionnel
+        # TODO Les lignes qui suivent ne servent qu'à éliminer un avertissement.
+        # TODO Il faut les retirer et les remplacer par du code fonctionnel
         dot_product = 1.0
         print(dict1_size, dict2_size)
         if dict1 != dict2:
@@ -135,8 +135,8 @@ class TextAn(TextAnCommon):
         Copyright 2023, F. Mailhot et Université de Sherbrooke
         """
 
-        # Les lignes qui suivent ne servent qu'à éliminer un avertissement.
-        # Il faut les retirer et les remplacer par du code fonctionnel
+        # TODO Les lignes qui suivent ne servent qu'à éliminer un avertissement.
+        # TODO Il faut les retirer et les remplacer par du code fonctionnel
         dot_product = 0.0
         print(self)
         if auteur in dict_oeuvre:
@@ -158,22 +158,22 @@ class TextAn(TextAnCommon):
             où la proximité est un nombre entre 0 et 1)
         """
 
-        # Les lignes suivantes ne servent qu'à éliminer un avertissement.
-        # Il faut les retirer lorsque le code est complété
+        # TODO Les lignes suivantes ne servent qu'à éliminer un avertissement.
+        # TODO Il faut les retirer lorsque le code est complété
         print(self.auteurs, oeuvre)
         resultats = [
             ("Premier_auteur", 0.1234),
             ("Deuxième_auteur", 0.1123),
         ]  # Exemple du format des sorties
 
-        # Ajouter votre code pour déterminer la proximité du fichier passé en paramètre avec chacun des auteurs
-        # Retourner la liste des auteurs, chacun avec sa proximité au fichier inconnu
-        # Plus la proximité est grande, plus proche l'oeuvre inconnue est des autres écrits d'un auteur
-        #   Le produit scalaire entre le vecteur représentant les oeuvres d'un auteur
-        #       et celui associé au texte inconnu pourrait s'avérer intéressant...
-        #   Le produit scalaire devrait être normalisé avec la taille du vecteur associé au texte inconnu :
-        #   proximité = (A dot product B) / (|A| |B|)   où A est le vecteur du texte inconnu et B est celui d'un auteur,
-        #           "dot product" est le produit scalaire, et |X| est la norme (longueur) du vecteur X
+        # TODO Ajouter votre code pour déterminer la proximité du fichier passé en paramètre avec chacun des auteurs
+        # TODO Retourner la liste des auteurs, chacun avec sa proximité au fichier inconnu
+        # TODO Plus la proximité est grande, plus proche l'oeuvre inconnue est des autres écrits d'un auteur
+        # TODO  Le produit scalaire entre le vecteur représentant les oeuvres d'un auteur
+        # TODO      et celui associé au texte inconnu pourrait s'avérer intéressant...
+        # TODO  Le produit scalaire devrait être normalisé avec la taille du vecteur associé au texte inconnu :
+        # TODO  proximité = (A dot product B) / (|A| |B|)   où A est le vecteur du texte inconnu et B est celui d'un auteur,
+        # TODO          "dot product" est le produit scalaire, et |X| est la norme (longueur) du vecteur X
 
         return resultats
 
@@ -237,18 +237,18 @@ class TextAn(TextAnCommon):
             void : ne retourne rien, toute l'information extraite est conservée dans des structures internes
         """
 
-        # Ajouter votre code ici pour traiter l'ensemble des oeuvres de l'ensemble des auteurs
-        # Pour l'analyse :  faire le calcul des fréquences de n-grammes pour l'ensemble des oeuvres
-        #   d'un certain auteur, sans distinction des oeuvres individuelles,
-        #       et recommencer ce calcul pour chacun des auteurs
-        #   En procédant ainsi, les oeuvres comprenant plus de mots auront un impact plus grand sur
-        #   les statistiques globales d'un auteur.
-        # Il serait possible de considérer chacune des oeuvres d'un auteur comme ayant un poids identique.
-        #   Pour ce faire, il faudrait faire les calculs de fréquence pour chacune des oeuvres
-        #       de façon indépendante, pour ensuite les normaliser (diviser chaque vecteur par sa norme),
-        #       avant de les additionner pour obtenir le vecteur complet d'un auteur
-        #   De cette façon, les mots d'un court poème auraient une importance beaucoup plus grande que
-        #   les mots d'une très longue oeuvre du même auteur. Ce n'est PAS ce qui vous est demandé ici.
+        # TODO Ajouter votre code ici pour traiter l'ensemble des oeuvres de l'ensemble des auteurs
+        # TODO Pour l'analyse :  faire le calcul des fréquences de n-grammes pour l'ensemble des oeuvres
+        # TODO   d'un certain auteur, sans distinction des oeuvres individuelles,
+        # TODO       et recommencer ce calcul pour chacun des auteurs
+        # TODO   En procédant ainsi, les oeuvres comprenant plus de mots auront un impact plus grand sur
+        # TODO   les statistiques globales d'un auteur.
+        # TODO Il serait possible de considérer chacune des oeuvres d'un auteur comme ayant un poids identique.
+        # TODO   Pour ce faire, il faudrait faire les calculs de fréquence pour chacune des oeuvres
+        # TODO       de façon indépendante, pour ensuite les normaliser (diviser chaque vecteur par sa norme),
+        # TODO       avant de les additionner pour obtenir le vecteur complet d'un auteur
+        # TODO   De cette façon, les mots d'un court poème auraient une importance beaucoup plus grande que
+        # TODO   les mots d'une très longue oeuvre du même auteur. Ce n'est PAS ce qui vous est demandé ici.
 
         # Ces trois lignes ne servent qu'à éliminer un avertissement. Il faut les retirer lorsque le code est complété
         ngram = self.get_empty_ngram(2)
