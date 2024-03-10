@@ -47,7 +47,7 @@ class TextAn(TextAnCommon):
     """
 
     # Signes de ponctuation à retirer (compléter cette liste incomplète)
-    PONC = ["!"]
+    PONC = ["!", ",", ".", ":", ";", "?"]
 
     def __init__(self) -> None:
         """Initialize l'objet de type TextAn lorsqu'il est créé
@@ -92,10 +92,7 @@ class TextAn(TextAnCommon):
 
         # TODO Les lignes qui suivent ne servent qu'à éliminer un avertissement.
         # TODO Il faut les retirer et les remplacer par du code fonctionnel
-        dot_product = 1.0
-        print(dict1_size, dict2_size)
-        if dict1 != dict2:
-            dot_product = 0.0
+        dot_product = dict1 @ dict2
 
         return dot_product
 
