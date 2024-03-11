@@ -26,6 +26,7 @@ from textan_common import TextAnCommon
 import math
 import re
 
+
 class TextAn(TextAnCommon):
     """Classe à utiliser pour coder la solution à la problématique :
 
@@ -50,8 +51,7 @@ class TextAn(TextAnCommon):
     # Signes de ponctuation à retirer (compléter cette liste incomplète)
     PONC = ["!", ",", ".", ":", ";", "?"]
 
-
-    def __init__(self) -> None: #Nicolas
+    def __init__(self) -> None:  # Nicolas
         """Initialize l'objet de type TextAn lorsqu'il est créé
 
         Args :
@@ -77,8 +77,8 @@ class TextAn(TextAnCommon):
     # Ensuite, selon ce qui est demandé, les fonctions find_author(), gen_text() ou get_nth_element() sont appelées
 
     @staticmethod
-    def dot_product_dict( #Evan
-        dict1: dict, dict2: dict, dict1_size: int, dict2_size: int
+    def dot_product_dict(  # Evan
+            dict1: dict, dict2: dict, dict1_size: int, dict2_size: int
     ) -> float:
         """Calcule le produit scalaire NORMALISÉ de deux vecteurs représentés par des dictionnaires
 
@@ -110,7 +110,7 @@ class TextAn(TextAnCommon):
 
         return dot_product
 
-    def dot_product_aut(self, auteur1: str, auteur2: str) -> float: #Evan
+    def dot_product_aut(self, auteur1: str, auteur2: str) -> float:  # Evan
         """Calcule le produit scalaire normalisé entre les oeuvres de deux auteurs, en utilisant dot_product_dict()
 
         Args :
@@ -132,7 +132,7 @@ class TextAn(TextAnCommon):
             dot_product = 1.0
         return dot_product
 
-    def dot_product_dict_aut(self, dict_oeuvre: dict, auteur: str) -> float: #Nicolas
+    def dot_product_dict_aut(self, dict_oeuvre: dict, auteur: str) -> float:  # Nicolas
         """Calcule le produit scalaire normalisé entre une oeuvre inconnue et les oeuvres d'un auteur,
            en utilisant dot_product_dict()
 
@@ -261,19 +261,16 @@ class TextAn(TextAnCommon):
         # TODO   De cette façon, les mots d'un court poème auraient une importance beaucoup plus grande que
         # TODO   les mots d'une très longue oeuvre du même auteur. Ce n'est PAS ce qui vous est demandé ici.
 
-
-        pattern = "|".join(map(re.escape, [char for char in self.PONC]))
+        pattern = "|".join(map(re.escape, [char for char in self.PONC]))    # expression reguliere pour les caracteres
 
         for auteur in self.auteurs:
             for fichier in self.get_aut_files(auteur):
                 with open(fichier, "r", encoding="utf-8") as texte:
                     for line in texte:
-                        line = line.lower()                                     # mets les lignes en minuscules
-                        line = re.split(f'({pattern})', line)                   # separe les lignes avec le pattern
+                        line = line.lower()  # mets les lignes en minuscules
+                        line = re.split(f'({pattern})', line)  # separe les lignes avec le pattern
                         line = [word.strip() for word in line if word.strip()]  # enleve les espaces des mots
                         line = [word.split() for word in line if word.split()]  # separe chaque mots dans une liste
                         line = [word for sublist in line for word in sublist]   # remplace chaque liste par ses éléments
-                        
-
 
         return
