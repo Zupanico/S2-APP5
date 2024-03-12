@@ -65,7 +65,7 @@ class TextAn(TextAnCommon):
         super().__init__()
 
         # Au besoin, ajouter votre code d'initialisation de l'objet de type TextAn lors de sa création
-        self.compte_mots = {}   # ngram:compte
+        self.compte_mots = {}  # ngram:compte
 
         return
 
@@ -255,12 +255,6 @@ class TextAn(TextAnCommon):
         # TODO       et recommencer ce calcul pour chacun des auteurs
         # TODO   En procédant ainsi, les oeuvres comprenant plus de mots auront un impact plus grand sur
         # TODO   les statistiques globales d'un auteur.
-        # TODO Il serait possible de considérer chacune des oeuvres d'un auteur comme ayant un poids identique.
-        # TODO   Pour ce faire, il faudrait faire les calculs de fréquence pour chacune des oeuvres
-        # TODO       de façon indépendante, pour ensuite les normaliser (diviser chaque vecteur par sa norme),
-        # TODO       avant de les additionner pour obtenir le vecteur complet d'un auteur
-        # TODO   De cette façon, les mots d'un court poème auraient une importance beaucoup plus grande que
-        # TODO   les mots d'une très longue oeuvre du même auteur. Ce n'est PAS ce qui vous est demandé ici.
 
         pattern = "|".join(map(re.escape, [char for char in self.PONC]))  # expression reguliere pour les caracteres
 
@@ -270,10 +264,20 @@ class TextAn(TextAnCommon):
                     mots_precedents = []
                     for line in texte:
                         line = line.lower()  # mets les lignes en minuscules
-                        line = re.split(f'({pattern})', line)  # separe les lignes avec le pattern
+
+                        if self.keep_ponc:  # regarde si keep_ponc est True
+                            line = re.split(f'({pattern})', line)  # separe les lignes avec le pattern
+                        else:
+                            line = re.split(f'({pattern})', line)
+
                         line = [word.strip() for word in line if word.strip()]  # enleve les espaces des mots
                         line = [word.split() for word in line if word.split()]  # separe chaque mots dans une liste
                         line = [word for sublist in line for word in sublist]  # remplace chaque liste par ses éléments
+
+                        if self.remove_word_1:  # enlever les mots de 1 lettre
+                            line = [word for word in line if len(word) != 1]
+                        if self.remove_word_2:  # enlever les mots de 2 lettres
+                            line = [word for word in line if len(word) != 2]
 
                         # Indexation des mots
                         mots = mots_precedents + line  # ajoute les mots à la liste des mots precedents
