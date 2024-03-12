@@ -175,8 +175,7 @@ class TextAn(TextAnCommon):
             resultats (Liste[(string, float)]) : Liste de tuples (auteurs, niveau de proximité),
             où la proximité est un nombre entre 0 et 1)
         """
-
-        resultats = 0
+        self.analyze()
 
         auteur_inconnu = "inconnu"
         pattern = "|".join(map(re.escape, [char for char in self.PONC]))  # expression reguliere pour les caracteres
@@ -226,9 +225,14 @@ class TextAn(TextAnCommon):
             else:
                 self.compte_mots[auteur_inconnu][occurence] = [ngram]
 
+        resultats = []
         for auteur in self.auteurs:
-            resultats = auteur, self.dot_product_dict(self.compte_mots[auteur_inconnu], self.compte_mots[auteur])
-            print(resultats)
+            resultats += (auteur, self.dot_product_dict_aut(self.compte_mots[auteur_inconnu], auteur))
+
+        # resultats = [
+        #     ("Premier_auteur", 0.1234),
+        #     ("Deuxième_auteur", 0.1123),
+        # ]
 
         return resultats
 
