@@ -204,6 +204,31 @@ class TextAn(TextAnCommon):
         # Ce print ne sert qu'à éliminer un avertissement. Il doit être retiré lorsque le code est complété
         print(self.auteurs, taille, textname)
 
+
+        # dictionnaire des prefixes
+        dict_auteur = {}
+        for auteur in self.auteurs:
+            dict_auteur = dict_auteur | self.mots_auteurs[auteur]
+
+        # ouvre un nouveau fichier
+        fichier = open(textname, "a")
+
+        # initialise les prefixes
+        liste_prefixes = [prefix for prefix in dict_auteur if dict_auteur[prefix]]
+
+        for i in range(taille):
+            # choisi les prefixes et les suffixes au hasard
+            prefixe = random.choice(liste_prefixes)
+            suffixe = random.choice(liste_prefixes)
+            suffixe = [mot for mot in suffixe]
+
+            # ecrit les prefixes et les suffixes
+            fichier.write(' '.join(map(str, prefixe)) + ' ')
+            fichier.write(' '.join(map(str, suffixe)) + ' ')
+
+        # ferme le fichier
+        fichier.close()
+
         return
 
     def gen_text_auteur(self, auteur: str, taille: int, textname: str) -> None:

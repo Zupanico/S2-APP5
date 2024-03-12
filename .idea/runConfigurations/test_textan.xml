@@ -15,7 +15,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/test_textan.py" />
-    <option name="PARAMETERS" value="-d TextesPourEtudiants -a Zola -m 2 -Ga Zola -g_base texte" />
+    <option name="PARAMETERS" value="-d TextesPourEtudiants -m 2 -G -g_base texte" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />
