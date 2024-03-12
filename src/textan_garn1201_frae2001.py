@@ -234,10 +234,10 @@ class TextAn(TextAnCommon):
             (il est possible qu'il y ait plus d'un n-gramme au même rang)
         """
 
-        liste_ordonne = list(self.compte_mots[auteur].keys())
-        liste_ordonne.sort()
-        mots_ordonnes = {i: self.compte_mots[auteur][i] for i in liste_ordonne}
-        return mots_ordonnes
+        liste_ordonne = list(self.compte_mots[auteur].keys())  # fait une liste des occurences
+        liste_ordonne.sort(reverse=True)    # classe les occurences en ordre decroissant
+        nth_element = self.compte_mots[auteur][liste_ordonne[n-1]]  # valeur a l'index
+        return nth_element
 
     def analyze(self) -> None:
         """Fait l'analyse des textes fournis, en traitant chaque oeuvre de chaque auteur
