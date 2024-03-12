@@ -9,13 +9,13 @@
     </envs>
     <option name="SDK_HOME" value="" />
     <option name="SDK_NAME" value="Python 3.12 (S2-APP5)" />
-    <option name="WORKING_DIRECTORY" value="C:\Users\evanf\OneDrive\Bureau\APP 5\Code\S2-APP5\data" />
+    <option name="WORKING_DIRECTORY" value="C:\Users\nicol\OneDrive - USherbrooke\S2\APP5\S2-APP5\data" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/test_textan.py" />
-    <option name="PARAMETERS" value="-d TextesPourEtudiants -m 2 -G -g_base texte -f Zola/Emile\ Zola\ -\ Germinal.txt" />
+    <option name="PARAMETERS" value="-d TextesPourEtudiants -m 2 -f texte.txt" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

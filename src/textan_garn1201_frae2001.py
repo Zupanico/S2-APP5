@@ -178,10 +178,57 @@ class TextAn(TextAnCommon):
 
         resultats = 0
 
-        self.analyze()
+        auteur_inconnu = "inconnu"
+        pattern = "|".join(map(re.escape, [char for char in self.PONC]))  # expression reguliere pour les caracteres
+        texte = open(oeuvre, "r", encoding="utf-8")
+        mots_precedents = []
+        for line in texte:
+            line = line.lower()  # mets les lignes en minuscules
+
+            if self.keep_ponc:  # regarde si keep_ponc est True
+                line = re.split(f'({pattern})', line)  # separe les lignes avec le pattern
+            else:
+                line = re.split(f'({pattern})', line)
+
+            line = [word.strip() for word in line if word.strip()]  # enleve les espaces des mots
+            line = [word.split() for word in line if word.split()]  # separe chaque mots dans une liste
+            line = [word for sublist in line for word in sublist]  # remplace chaque liste par ses éléments
+
+            if self.remove_word_1:  # enlever les mots de 1 lettre
+                line = [word for word in line if len(word) != 1]
+            if self.remove_word_2:  # enlever les mots de 2 lettres
+                line = [word for word in line if len(word) != 2]
+
+            # Indexation des mots
+            mots = mots_precedents + line  # ajoute les mots à la liste des mots precedents
+
+            self.mots_auteurs[auteur_inconnu] = {}
+            for i in range((len(mots) - self.ngram)):
+                prefix = tuple(mots[i:i + self.ngram])  # initialise le prefix
+                suffix = mots[i + self.ngram]  # initialise le suffixe
+
+                if prefix in self.mots_auteurs[auteur_inconnu]:  # si le suffixe existe, ajouter a au dictionnaire
+                    self.mots_auteurs[auteur_inconnu][prefix].append(suffix)
+                else:  # sinon cree l'entree avec le prefix
+                    self.mots_auteurs[auteur_inconnu][prefix] = [suffix]
+
+            mots_precedents = line[-self.ngram:]
+        # Compte le nombre d'occurence des ngrammes
+        self.compte_mots[auteur_inconnu] = {}
+        for ngram in self.mots_auteurs[auteur_inconnu]:
+            # self.compte_mots[auteur][ngram] = len(self.mots_auteurs[auteur][ngram]) # Ancienne façon
+            occurence = len(self.mots_auteurs[auteur_inconnu][ngram])  # nombres d'occurences d'un ngramme
+
+            # verification si l'occurence existe deja, ajoute a la liste
+            if occurence in self.compte_mots[auteur_inconnu]:
+                self.compte_mots[auteur_inconnu][occurence].append(ngram)
+            # sinon, cree la valeur
+            else:
+                self.compte_mots[auteur_inconnu][occurence] = [ngram]
 
         for auteur in self.auteurs:
-            resultats = self.dot_product_dict(self.oeuvre, self.compte_mots[auteur])
+            resultats = auteur, self.dot_product_dict(self.compte_mots[auteur_inconnu], self.compte_mots[auteur])
+            print(resultats)
 
         return resultats
 
@@ -195,10 +242,6 @@ class TextAn(TextAnCommon):
         Returns :
             void : ne retourne rien, le texte produit doit être écrit dans le fichier "textname"
         """
-
-        # Ce print ne sert qu'à éliminer un avertissement. Il doit être retiré lorsque le code est complété
-        print(self.auteurs, taille, textname)
-
 
         # dictionnaire des prefixes
         dict_auteur = {}
