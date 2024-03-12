@@ -65,6 +65,7 @@ class TextAn(TextAnCommon):
         super().__init__()
 
         # Au besoin, ajouter votre code d'initialisation de l'objet de type TextAn lors de sa création
+        self.compte_mots = {}   # ngram:compte
 
         return
 
@@ -261,7 +262,7 @@ class TextAn(TextAnCommon):
         # TODO   De cette façon, les mots d'un court poème auraient une importance beaucoup plus grande que
         # TODO   les mots d'une très longue oeuvre du même auteur. Ce n'est PAS ce qui vous est demandé ici.
 
-        pattern = "|".join(map(re.escape, [char for char in self.PONC]))    # expression reguliere pour les caracteres
+        pattern = "|".join(map(re.escape, [char for char in self.PONC]))  # expression reguliere pour les caracteres
 
         for auteur in self.auteurs:
             for fichier in self.get_aut_files(auteur):
@@ -272,22 +273,25 @@ class TextAn(TextAnCommon):
                         line = re.split(f'({pattern})', line)  # separe les lignes avec le pattern
                         line = [word.strip() for word in line if word.strip()]  # enleve les espaces des mots
                         line = [word.split() for word in line if word.split()]  # separe chaque mots dans une liste
-                        line = [word for sublist in line for word in sublist]   # remplace chaque liste par ses éléments
+                        line = [word for sublist in line for word in sublist]  # remplace chaque liste par ses éléments
 
-                        mots = mots_precedents + line
+                        # Indexation des mots
+                        mots = mots_precedents + line  # ajoute les mots à la liste des mots precedents
 
                         for i in range((len(mots) - self.ngram)):
-                            prefix = tuple(mots[i:i+self.ngram])
-                            suffix = mots[i+self.ngram]
+                            prefix = tuple(mots[i:i + self.ngram])  # initialise le prefix
+                            suffix = mots[i + self.ngram]  # initialise le suffixe
 
-
-                            if prefix in self.mots_auteurs[auteur]:
+                            if prefix in self.mots_auteurs[auteur]:  # si le suffixe existe, ajouter a au dictionnaire
                                 self.mots_auteurs[auteur][prefix].append(suffix)
-                            else:
+                            else:  # sinon cree l'entree avec le prefix
                                 self.mots_auteurs[auteur][prefix] = [suffix]
 
                         mots_precedents = line[-self.ngram:]
 
-        print(self.mots_auteurs)
+            # Compte le nombre d'occurence des ngrammes
+            self.compte_mots[auteur] = {}
+            for ngram in self.mots_auteurs[auteur]:
+                self.compte_mots[auteur][ngram] = len(self.mots_auteurs[auteur][ngram])
 
         return
