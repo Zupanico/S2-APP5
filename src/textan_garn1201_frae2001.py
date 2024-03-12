@@ -266,11 +266,28 @@ class TextAn(TextAnCommon):
         for auteur in self.auteurs:
             for fichier in self.get_aut_files(auteur):
                 with open(fichier, "r", encoding="utf-8") as texte:
+                    mots_precedents = []
                     for line in texte:
                         line = line.lower()  # mets les lignes en minuscules
                         line = re.split(f'({pattern})', line)  # separe les lignes avec le pattern
                         line = [word.strip() for word in line if word.strip()]  # enleve les espaces des mots
                         line = [word.split() for word in line if word.split()]  # separe chaque mots dans une liste
                         line = [word for sublist in line for word in sublist]   # remplace chaque liste par ses éléments
+
+                        mots = mots_precedents + line
+
+                        for i in range((len(mots) - self.ngram)):
+                            prefix = tuple(mots[i:i+self.ngram])
+                            suffix = mots[i+self.ngram]
+
+
+                            if prefix in self.mots_auteurs[auteur]:
+                                self.mots_auteurs[auteur][prefix].append(suffix)
+                            else:
+                                self.mots_auteurs[auteur][prefix] = [suffix]
+
+                        mots_precedents = line[-self.ngram:]
+
+        print(self.mots_auteurs)
 
         return
