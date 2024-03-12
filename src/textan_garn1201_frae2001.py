@@ -25,6 +25,7 @@
 from textan_common import TextAnCommon
 import math
 import re
+import random
 
 
 class TextAn(TextAnCommon):
@@ -217,8 +218,27 @@ class TextAn(TextAnCommon):
             void : ne retourne rien, le texte produit doit être écrit dans le fichier "textname"
         """
 
-        # Ce print ne sert qu'à éliminer un avertissement. Il doit être retiré lorsque le code est complété
-        print(self.auteurs, auteur, taille, textname)
+        # ouvre un nouveau fichier
+        fichier = open(textname, "a")
+
+        # dictionnaire des prefixes
+        dict_auteur = self.mots_auteurs[auteur]
+
+        # initialise les prefixes
+        liste_prefixes = [prefix for prefix in dict_auteur if dict_auteur[prefix]]
+
+        for i in range(taille):
+            # choisi les prefixes et les suffixes au hasard
+            prefixe = random.choice(liste_prefixes)
+            suffixe = random.choice(liste_prefixes)
+            suffixe = [mot for mot in suffixe]
+
+            # ecrit les prefixes et les suffixes
+            fichier.write(' '.join(map(str, prefixe)) + ' ')
+            fichier.write(' '.join(map(str, suffixe)) + ' ')
+
+        # ferme le fichier
+        fichier.close()
 
         return
 
@@ -235,8 +255,8 @@ class TextAn(TextAnCommon):
         """
 
         liste_ordonne = list(self.compte_mots[auteur].keys())  # fait une liste des occurences
-        liste_ordonne.sort(reverse=True)    # classe les occurences en ordre decroissant
-        nth_element = self.compte_mots[auteur][liste_ordonne[n-1]]  # valeur a l'index
+        liste_ordonne.sort(reverse=True)  # classe les occurences en ordre decroissant
+        nth_element = self.compte_mots[auteur][liste_ordonne[n - 1]]  # valeur a l'index
         return nth_element
 
     def analyze(self) -> None:
