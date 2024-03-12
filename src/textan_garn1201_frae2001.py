@@ -227,7 +227,8 @@ class TextAn(TextAnCommon):
 
         resultats = []
         for auteur in self.auteurs:
-            resultats += (auteur, self.dot_product_dict_aut(self.compte_mots[auteur_inconnu], auteur))
+            dot_product = self.dot_product_dict_aut(self.compte_mots[auteur_inconnu], auteur)
+            resultats.append([auteur, dot_product])
 
         # resultats = [
         #     ("Premier_auteur", 0.1234),
