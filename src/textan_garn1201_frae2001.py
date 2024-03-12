@@ -49,7 +49,7 @@ class TextAn(TextAnCommon):
     """
 
     # Signes de ponctuation à retirer (compléter cette liste incomplète)
-    PONC = ["!", ",", ".", ":", ";", "?"]
+    PONC = ["!", ",", ".", ":", ";", "?", "'"]
 
     def __init__(self) -> None:  # Nicolas
         """Initialize l'objet de type TextAn lorsqu'il est créé
@@ -184,7 +184,7 @@ class TextAn(TextAnCommon):
         # TODO  Le produit scalaire entre le vecteur représentant les oeuvres d'un auteur
         # TODO      et celui associé au texte inconnu pourrait s'avérer intéressant...
         # TODO  Le produit scalaire devrait être normalisé avec la taille du vecteur associé au texte inconnu :
-        # TODO  proximité = (A dot product B) / (|A| |B|)   où A est le vecteur du texte inconnu et B est celui d'un auteur,
+        # TODO proximité = (A dot product B) / (|A| |B|)   où A est le vecteur du texte inconnu et B est celui d'un auteur,
         # TODO          "dot product" est le produit scalaire, et |X| est la norme (longueur) du vecteur X
 
         return resultats
@@ -227,17 +227,16 @@ class TextAn(TextAnCommon):
 
         Args :
             auteur (str) : Nom de l'auteur à utiliser
-            k (int) : Indice du n-gramme à retourner
+            n (int) : Indice du n-gramme à retourner
 
         Returns :
             ngram (List[Liste[string]]) : Liste de liste de mots composant le n-gramme recherché
             (il est possible qu'il y ait plus d'un n-gramme au même rang)
         """
-        # Les lignes suivantes ne servent qu'à éliminer un avertissement.
-        # Il faut les retirer lorsque le code est complété
-        print(self.auteurs, auteur, n)
-        ngram = [["un", "roman"]]  # Exemple du format de sortie d'un bigramme
-        return ngram
+
+        ordre = sorted(self.compte_mots, key=self.compte_mots[auteur])
+        print(ordre)
+        return ordre
 
     def analyze(self) -> None:
         """Fait l'analyse des textes fournis, en traitant chaque oeuvre de chaque auteur
