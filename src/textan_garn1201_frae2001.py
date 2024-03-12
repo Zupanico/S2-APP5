@@ -65,7 +65,7 @@ class TextAn(TextAnCommon):
         super().__init__()
 
         # Au besoin, ajouter votre code d'initialisation de l'objet de type TextAn lors de sa création
-        self.compte_mots = {}  # ngram:compte
+        self.compte_mots = {}  # int(occurence):tuple(ngram)
 
         return
 
@@ -234,7 +234,7 @@ class TextAn(TextAnCommon):
             (il est possible qu'il y ait plus d'un n-gramme au même rang)
         """
 
-        ordre = sorted(self.compte_mots, key=self.compte_mots[auteur])
+        ordre = "test"#sorted(self.compte_mots, key=self.compte_mots[auteur])
         print(ordre)
         return ordre
 
@@ -295,6 +295,7 @@ class TextAn(TextAnCommon):
             # Compte le nombre d'occurence des ngrammes
             self.compte_mots[auteur] = {}
             for ngram in self.mots_auteurs[auteur]:
-                self.compte_mots[auteur][ngram] = len(self.mots_auteurs[auteur][ngram])
-
+                # self.compte_mots[auteur][ngram] = len(self.mots_auteurs[auteur][ngram]) # Ancienne façon
+                self.compte_mots[auteur][len(self.mots_auteurs[auteur][ngram])] = ngram
+        print(self.compte_mots)
         return
