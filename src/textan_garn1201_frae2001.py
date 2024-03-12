@@ -234,9 +234,10 @@ class TextAn(TextAnCommon):
             (il est possible qu'il y ait plus d'un n-gramme au même rang)
         """
 
-        ordre = "test"#sorted(self.compte_mots, key=self.compte_mots[auteur])
-        print(ordre)
-        return ordre
+        liste_ordonne = list(self.compte_mots[auteur].keys())
+        liste_ordonne.sort()
+        mots_ordonnes = {i: self.compte_mots[auteur][i] for i in liste_ordonne}
+        return mots_ordonnes
 
     def analyze(self) -> None:
         """Fait l'analyse des textes fournis, en traitant chaque oeuvre de chaque auteur
@@ -296,6 +297,13 @@ class TextAn(TextAnCommon):
             self.compte_mots[auteur] = {}
             for ngram in self.mots_auteurs[auteur]:
                 # self.compte_mots[auteur][ngram] = len(self.mots_auteurs[auteur][ngram]) # Ancienne façon
-                self.compte_mots[auteur][len(self.mots_auteurs[auteur][ngram])] = ngram
-        print(self.compte_mots)
+                occurence = len(self.mots_auteurs[auteur][ngram])  # nombres d'occurences d'un ngramme
+
+                # verification si l'occurence existe deja, ajoute a la liste
+                if occurence in self.compte_mots[auteur]:
+                    self.compte_mots[auteur][occurence].append(ngram)
+                # sinon, cree la valeur
+                else:
+                    self.compte_mots[auteur][occurence] = [ngram]
+
         return
