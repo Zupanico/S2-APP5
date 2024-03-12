@@ -79,8 +79,8 @@ class TextAn(TextAnCommon):
     # Ensuite, selon ce qui est demandé, les fonctions find_author(), gen_text() ou get_nth_element() sont appelées
 
     @staticmethod
-    def dot_product_dict(  # Evan
-            dict1: dict, dict2: dict, dict1_size: int, dict2_size: int
+    def dot_product_dict(
+            dict1: dict, dict2: dict,
     ) -> float:
         """Calcule le produit scalaire NORMALISÉ de deux vecteurs représentés par des dictionnaires
 
@@ -93,26 +93,36 @@ class TextAn(TextAnCommon):
 
         Copyright 2023, F. Mailhot et Université de Sherbrooke
         """
+        # Changer valeurs et clés
 
-        # TODO Les lignes qui suivent ne servent qu'à éliminer un avertissement.
-        # TODO Il faut les retirer et les remplacer par du code fonctionnel
+        new_dict1 = {}
+        new_dict2 = {}
 
-        if set(dict1.keys()) != set(dict2.keys()):
-            raise ValueError("Les vecteurs doivent avoir les mêmes clés")
+        for key, values in dict1.items():
+            for ngram in values:
+                new_dict1[ngram] = key
 
-            # Calculer le produit scalaire
-        produit = sum(dict1[key] * dict2[key] for key in dict1.keys())
+        for key, values in dict2.items():
+            for ngram in values:
+                new_dict2[ngram] = key
+
+        # Calculer le produit scalaire
+
+        fusion_cles = tuple(new_dict1.keys() & new_dict2.keys())
+
+        produit = sum(new_dict1[ngram] * new_dict2[ngram] for ngram in fusion_cles)
 
         # Calculer les normes
-        norme_vecteur1 = math.sqrt(sum(value ** 2 for value in dict1.values()))
-        norme_vecteur2 = math.sqrt(sum(value ** 2 for value in dict2.values()))
+
+        norme_vecteur1 = math.sqrt(sum(value ** 2 for value in new_dict1.values()))
+        norme_vecteur2 = math.sqrt(sum(value ** 2 for value in new_dict2.values()))
 
         # Diviser le produit scalaire par le produit des normes
         dot_product = produit / (norme_vecteur1 * norme_vecteur2)
 
         return dot_product
 
-    def dot_product_aut(self, auteur1: str, auteur2: str) -> float:  # Evan
+    def dot_product_aut(self, auteur1: str, auteur2: str) -> float:
         """Calcule le produit scalaire normalisé entre les oeuvres de deux auteurs, en utilisant dot_product_dict()
 
         Args :
@@ -127,14 +137,12 @@ class TextAn(TextAnCommon):
 
         # Les lignes qui suivent ne servent qu'à éliminer un avertissement.
         # Il faut les retirer et les remplacer par du code fonctionnel
-        dot_product = 0.0
-        print(self)
-        if auteur1 == auteur2:
-            print(auteur1, auteur2)
-            dot_product = 1.0
+
+        dot_product = self.dot_product_dict(self.compte_mots[auteur1], self.compte_mots[auteur2])
+
         return dot_product
 
-    def dot_product_dict_aut(self, dict_oeuvre: dict, auteur: str) -> float:  # Nicolas
+    def dot_product_dict_aut(self, dict_oeuvre: dict, auteur: str) -> float:
         """Calcule le produit scalaire normalisé entre une oeuvre inconnue et les oeuvres d'un auteur,
            en utilisant dot_product_dict()
 
@@ -150,12 +158,9 @@ class TextAn(TextAnCommon):
 
         # TODO Les lignes qui suivent ne servent qu'à éliminer un avertissement.
         # TODO Il faut les retirer et les remplacer par du code fonctionnel
-        dot_product = 0.0
-        print(self)
-        if auteur in dict_oeuvre:
-            print(dict_oeuvre)
-            print(auteur)
-            dot_product = 1.0
+
+        dot_product = self.dot_product_dict(dict_oeuvre, self.compte_mots[auteur])
+
         return dot_product
 
     def find_author(self, oeuvre: str) -> []:
@@ -171,22 +176,12 @@ class TextAn(TextAnCommon):
             où la proximité est un nombre entre 0 et 1)
         """
 
-        # TODO Les lignes suivantes ne servent qu'à éliminer un avertissement.
-        # TODO Il faut les retirer lorsque le code est complété
-        print(self.auteurs, oeuvre)
-        resultats = [
-            ("Premier_auteur", 0.1234),
-            ("Deuxième_auteur", 0.1123),
-        ]  # Exemple du format des sorties
+        resultats = 0
 
-        # TODO Ajouter votre code pour déterminer la proximité du fichier passé en paramètre avec chacun des auteurs
-        # TODO Retourner la liste des auteurs, chacun avec sa proximité au fichier inconnu
-        # TODO Plus la proximité est grande, plus proche l'oeuvre inconnue est des autres écrits d'un auteur
-        # TODO  Le produit scalaire entre le vecteur représentant les oeuvres d'un auteur
-        # TODO      et celui associé au texte inconnu pourrait s'avérer intéressant...
-        # TODO  Le produit scalaire devrait être normalisé avec la taille du vecteur associé au texte inconnu :
-        # TODO proximité = (A dot product B) / (|A| |B|)   où A est le vecteur du texte inconnu et B est celui d'un auteur,
-        # TODO          "dot product" est le produit scalaire, et |X| est la norme (longueur) du vecteur X
+        self.analyze()
+
+        for auteur in self.auteurs:
+            resultats = self.dot_product_dict(self.oeuvre, self.compte_mots[auteur])
 
         return resultats
 
